@@ -1,0 +1,78 @@
+{% extends "citas/base.html" %}
+
+{% block titulo %}Citas del día - Huellas Sanas{% endblock %}
+
+{% block contenido %}
+<section class="panel">
+  <div class="panel-cabecera">
+    <h1>Listado diario de citas</h1>
+    <a class="boton boton-primario" href="{% url 'crear_mascota' %}">+ Nuevo paciente</a>
+  </div>
+
+  <form method="get" class="barra-fecha">
+    <a class="boton boton-secundario" href="?fecha={{ dia_anterior|date:'Y-m-d' }}">&laquo; Día anterior</a>
+    <input type="date" name="fecha" value="{{ fecha|date:'Y-m-d' }}">
+    <button class="boton boton-secundario" type="submit">Ver fecha</button>
+    <a class="boton boton-secundario" href="?fecha={{ dia_siguiente|date:'Y-m-d' }}">Día siguiente &raquo;</a>
+    {% if fecha != hoy %}
+      <a class="boton boton-secundario" href="?fecha={{ hoy|date:'Y-m-d' }}">Hoy</a>
+    {% endif %}
+  </form>
+
+  <p class="resumen">
+    <strong>{{ fecha|date:'d \d\e F \d\e Y' }}</strong> · {{ total }} cita{{ total|pluralize }}
+  </p>
+
+  {% if citas %}
+    <div class="tabla-contenedor">
+      <table class="tabla">
+        <thead>
+          <tr>
+            <th>Hora</th>
+            <th>Paciente</th>
+            <th>Especie / Raza</th>
+            <th>Dueño</th>
+            <th>Motivo de consulta</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for cita in citas %}
+          <tr>
+            <td data-label="Hora"><strong>{{ cita.hora|time:'H:i' }}</strong></td>
+            <td data-label="Paciente">{{ cita.mascota.nombre }}</td>
+            <td data-label="Especie / Raza">{{ cita.mascota.especie }} · {{ cita.mascota.raza }}</td>
+            <td data-label="Dueño">{{ cita.mascota.nombre_dueno }}</td>
+            <td data-label="Motivo">{{ cita.motivo_consulta }}</td>
+            <td data-label="Estado">
+              <span class="etiqueta etiqueta-{{ cita.estado }}">{{ cita.get_estado_display }}</span>
+            </td>
+            <td data-label="Acciones">
+              <form method="post" action="{% url 'actualizar_estado_cita' cita.id %}" class="acciones">
+                {% csrf_token %}
+                <input type="hidden" name="fecha" value="{{ fecha|date:'Y-m-d' }}">
+                {% if cita.estado != 'atendida' %}
+                  <button class="boton boton-mini boton-ok" name="estado" value="atendida">Atender</button>
+                {% endif %}
+                {% if cita.estado != 'cancelada' %}
+                  <button class="boton boton-mini boton-peligro" name="estado" value="cancelada">Cancelar</button>
+                {% endif %}
+                {% if cita.estado != 'pendiente' %}
+                  <button class="boton boton-mini boton-secundario" name="estado" value="pendiente">Reabrir</button>
+                {% endif %}
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <div class="vacio">
+      <p>No hay citas agendadas para el <strong>{{ fecha|date:'d/m/Y' }}</strong>.</p>
+      <a class="boton boton-primario" href="{% url 'crear_mascota' %}">Registrar un paciente</a>
+    </div>
+  {% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,105 @@
+{% extends "citas/base.html" %}
+
+{% block titulo %}Huellas Sanas - Clínica Veterinaria{% endblock %}
+
+{% block contenido %}
+
+<section class="hero">
+  <div class="hero-contenido">
+    <span class="hero-emoji" aria-hidden="true">🐾</span>
+    <h1>Clínica Veterinaria Huellas Sanas</h1>
+    <p class="hero-bajada">
+      Cuidamos a quien te hace compañía. Agenda médica, controles y vacunas
+      de tus mascotas, con un registro ordenado y sin esperas sorpresa.
+    </p>
+    <div class="hero-botones">
+      <a class="boton boton-primario boton-grande" href="{% url 'lista_citas' %}">Ver citas del día</a>
+      <a class="boton boton-claro boton-grande" href="#servicios">Nuestros servicios</a>
+    </div>
+  </div>
+</section>
+
+<section class="seccion" id="servicios">
+  <h2 class="seccion-titulo">Servicios</h2>
+  <p class="seccion-bajada">Todo lo que tu peludo necesita en un solo lugar.</p>
+
+  <div class="rejilla">
+    <article class="tarjeta">
+      <span class="tarjeta-emoji" aria-hidden="true">💉</span>
+      <h3>Vacunación</h3>
+      <p>Planes de vacunación antirrabica y polivalente para perros y gatos, con recordatorios automáticos.</p>
+    </article>
+    <article class="tarjeta">
+      <span class="tarjeta-emoji" aria-hidden="true">🩺</span>
+      <h3>Consultas generales</h3>
+      <p>Revisiones de rutina, diagnóstico oportuno y seguimiento de cada paciente por ficha clínica.</p>
+    </article>
+    <article class="tarjeta">
+      <span class="tarjeta-emoji" aria-hidden="true">✂️</span>
+      <h3>Peluquería y baños</h3>
+      <p>Baños medicados, corte de uñas y arreglo de pelaje con productos hipoalergénicos.</p>
+    </article>
+    <article class="tarjeta">
+      <span class="tarjeta-emoji" aria-hidden="true">🦷</span>
+      <h3>Limpieza dental</h3>
+      <p>Profilaxis dental y control de enfermedades bucales para una sonrisa sana.</p>
+    </article>
+    <article class="tarjeta">
+      <span class="tarjeta-emoji" aria-hidden="true">🥗</span>
+      <h3>Nutrición</h3>
+      <p>Planes alimentarios personalizados según especie, raza, edad y peso de tu mascota.</p>
+    </article>
+    <article class="tarjeta">
+      <span class="tarjeta-emoji" aria-hidden="true">🚨</span>
+      <h3>Urgencias</h3>
+      <p>Atención prioritaria en horario de atención para situaciones que no pueden esperar.</p>
+    </article>
+  </div>
+</section>
+
+<section class="seccion seccion-alterna">
+  <h2 class="seccion-titulo">¿Por qué Huellas Sanas?</h2>
+  <div class="rejilla rejilla-3">
+    <article class="tarjeta tarjeta-plana">
+      <h3>📅 Citas ordenadas</h3>
+      <p>Agenda digital centralizada: sin dobles reservas ni mensajes perdidos. El recepcionista ve el día completo de un vistazo.</p>
+    </article>
+    <article class="tarjeta tarjeta-plana">
+      <h3>📋 Ficha por paciente</h3>
+      <p>Cada mascota tiene registro de especie, raza y dueño, con su historial de motivos de consulta y estados de atención.</p>
+    </article>
+    <article class="tarjeta tarjeta-plana">
+      <h3>⚡ Atención ágil</h3>
+      <p>Al llegar, tu hora ya está registrada: el veterinario conoce el motivo de la consulta antes de que entres.</p>
+    </article>
+  </div>
+</section>
+
+<section class="seccion" id="contacto">
+  <h2 class="seccion-titulo">Contacto</h2>
+  <div class="rejilla rejilla-3">
+    <article class="tarjeta tarjeta-plana">
+      <h3>📍 Dirección</h3>
+      <p>Avenida Rene Soriano 2382<br>Osorno, Chile</p>
+    </article>
+    <article class="tarjeta tarjeta-plana">
+      <h3>🕐 Horario de atención</h3>
+      <p>Lunes a viernes: 9:00 a 18:00<br>Sábados: 9:00 a 14:00</p>
+    </article>
+    <article class="tarjeta tarjeta-plana">
+      <h3>📞 Teléfono y correo</h3>
+      <p>+56 9 1234 5678<br>contacto@huellassanas.cl</p>
+    </article>
+  </div>
+</section>
+
+<section class="llamada-final">
+  <h2>¿Eres parte del equipo de recepción?</h2>
+  <p>Ingresa al sistema de gestión para revisar el listado diario o registrar nuevos pacientes.</p>
+  <div class="hero-botones">
+    <a class="boton boton-claro boton-grande" href="{% url 'lista_citas' %}">Ir al sistema de citas</a>
+    <a class="boton boton-claro boton-grande" href="/admin/">Panel Admin Django</a>
+  </div>
+</section>
+
+{% endblock %}

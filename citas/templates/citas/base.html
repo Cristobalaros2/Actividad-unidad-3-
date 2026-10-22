@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block titulo %}Huellas Sanas{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'citas/estilos.css' %}">
+</head>
+<body>
+  <header class="cabecera">
+    <div class="contenedor cabecera-contenido">
+      <span class="logo">🐾 Huellas Sanas</span>
+      <nav class="menu">
+        <a href="{% url 'landing' %}">Inicio</a>
+        <a href="{% url 'lista_citas' %}">Citas del día</a>
+        <a href="{% url 'crear_mascota' %}">Registrar paciente</a>
+        <a href="/admin/">Admin Django</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="contenedor">
+    {% if messages %}
+      {% for mensaje in messages %}
+        <div class="mensaje mensaje-{{ mensaje.tags }}">{{ mensaje }}</div>
+      {% endfor %}
+    {% endif %}
+
+    {% block contenido %}{% endblock %}
+  </main>
+
+  <footer class="pie">
+    <div class="contenedor">
+      Clínica Veterinaria Huellas Sanas · Sistema de gestión de citas · Unidad 3
+    </div>
+  </footer>
+</body>
+</html>
