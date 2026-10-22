@@ -1,118 +1,94 @@
-# Integración de IA — Prompts estructurados
+# Anexo: Prompts utilizados con el agente de IA
 
-Instrucciones redactadas para un agente de Inteligencia Artificial, según los
-objetivos de la actividad "Huellas Sanas".
-
----
-
-## Prompt 1: Generar el código HTML/CSS responsivo del formulario de ingreso y la tabla de visualización
-
-```
-ROL: Eres un desarrollador frontend especializado en HTML5, CSS3 y diseño responsive.
-
-CONTEXTO:
-Estamos construyendo el sistema web de la clínica veterinaria "Huellas Sanas"
-con Django. La interfaz será renderizada con plantillas Django (syntax {{ }} y {% %}).
-
-OBJETIVO:
-Generar el código HTML/CSS responsivo de dos vistas:
-1. Formulario de ingreso de nuevos pacientes (mascotas).
-2. Tabla de visualización del listado diario de citas.
-
-REQUISITOS TÉCNICOS:
-- Formulario: campos Nombre de la mascota, Especie, Raza y Nombre del dueño.
-  Debe mostrar errores de validación por campo y usar token CSRF.
-- Tabla: columnas Hora, Paciente, Especie/Raza, Dueño, Motivo de consulta,
-  Estado (etiqueta de color: pendiente/atendida/cancelada) y Acciones
-  (botones para atender o cancelar cada cita).
-- Responsivo: en pantallas menores a 760px la tabla se convierte en tarjetas
-  apiladas (cada celda muestra su etiqueta con data-label).
-- Estética: paleta verde institucional, cabecera con menú de navegación
-  (Citas del día / Registrar paciente / Admin Django), mensajes de éxito/error.
-- Usar HTML semántico, accesible (labels asociados a inputs) y sin dependencias
-  externas (sin Bootstrap ni jQuery).
-
-FORMATO DE SALIDA:
-Archivos completos: base.html, lista_citas.html, crear_mascota.html y estilos.css
-compatibles con el motor de plantillas de Django.
-```
+A continuación quedan registrados los prompts que redacté y le entregué al agente
+de inteligencia artificial para la actividad de la clínica veterinaria
+"Huellas Sanas". Los tres prompts corresponden a las tres tareas que pedía el
+encargo.
 
 ---
 
-## Prompt 2: Crear un script que genere datos ficticios de 20 pacientes y citas iniciales
+## Prompt 1 — Formulario y tabla en HTML/CSS responsivo
 
 ```
-ROL: Eres un desarrollador backend Python especializado en Django ORM.
+Hola, estoy haciendo una actividad de la universidad. Es un sistema web para
+una clínica veterinaria que se llama "Huellas Sanas", hecho en Django.
 
-CONTEXTO:
-Proyecto Django "Huellas Sanas" (app: citas) con los modelos:
+Necesito que me ayudes a generar el código HTML y CSS (responsivo) de dos
+partes de la interfaz:
+
+1) El formulario para ingresar nuevos pacientes. Tiene que tener estos campos:
+   - Nombre de la mascota
+   - Especie
+   - Raza
+   - Nombre del dueño
+   Con sus etiquetas (label), espacios para mostrar errores de validación si
+   el usuario se equivoca, y el token CSRF de Django porque el form es con
+   method="post".
+
+2) La tabla que muestra el listado diario de citas. Columnas:
+   - Hora
+   - Paciente
+   - Especie / Raza
+   - Dueño
+   - Motivo de consulta
+   - Estado (que se vea con colores: pendiente amarillo, atendida verde,
+     cancelada rojo)
+   - Acciones (botones para marcar una cita como atendida o cancelada)
+
+Porfa entrégame los archivos: base.html, lista_citas.html, crear_mascota.html
+y estilos.css.
+```
+
+
+## Prompt 2 — Script de datos ficticios (20 pacientes y citas)
+
+```
+Continuando con la actividad de "Huellas Sanas": ya tengo los modelos en
+Django creados en la app "citas":
+
 - Mascota(nombre, especie, raza, nombre_dueno)
-- Cita(mascota FK, fecha, hora, motivo_consulta, estado[pendiente/atendida/cancelada])
+- Cita(mascota que es una clave foránea a Mascota, fecha, hora,
+  motivo_consulta y estado que puede ser pendiente, atendida o cancelada)
 
-OBJETIVO:
-Crear un script Python (ej: generar_datos_ficticios.py) que genere datos
-ficticios para validar el funcionamiento del sistema.
+Necesito un script en Python que me cargue datos ficticios para poder probar
+el sistema, porque sin datos no se puede validar nada.
 
-REQUISITOS TÉCNICOS:
-- Generar exactamente 20 pacientes (mascotas) con nombres de mascotas y
-  apellidos de dueños realistas, escritos SIN tildes ni caracteres especiales.
-- Generar citas asociadas a esos pacientes:
-  * Al menos 10 citas para el día de hoy (para probar el listado diario).
-  * El resto distribuido en días pasados y futuros (rango -14 a +14 días).
-  * Estados variados: mayoría pendiente, algunas atendidas y canceladas.
-  * Horarios en franjas de 9:00 a 17:00 en intervalos de 30 minutos.
-  * Motivos de consulta variados (vacunación, control de peso, etc.).
-- Usar random.seed() para que los datos sean reproducibles.
-- El script debe ser idempotente: no duplicar datos si ya existen en la BD.
-- Configurar DJANGO_SETTINGS_MODULE y django.setup() antes de usar los modelos.
-- Imprimir un resumen al finalizar (pacientes y citas creados/totales).
+Requisitos del script:
+- Que cree exactamente 20 pacientes (mascotas) con nombres de perros/gatos y
+  apellidos de dueños chilenos realistas. Ojo: SIN tildes ni la ñ, porque
+  antes tuve un problema de encoding y me aparecían signos de pregunta en
+  la base de datos.
+- Que cree citas para esas mascotas:
+  * Al menos 10 citas para el día de hoy, así pruebo el listado diario.
+  * El resto en días pasados y futuros (más menos 2 semanas).
+  * Estados variados: harto pendiente, algunas atendidas y canceladas.
+  * Horarios de 9:00 a 17:00 en media horas.
+  * Motivos variados: vacunación, control de peso, baños, etc.
+- Que no duplique datos si ya existe información en la base (lo del profe:
+  que se pueda volver a correr sin que se llene de repetidos).
+- Que imprima al final cuántos pacientes y citas creó.
 
-FORMATO DE SALIDA:
-Un archivo .py ejecutable con: pipenv run python generar_datos_ficticios.py
+Lo ejecuto con: pipenv run python generar_datos_ficticios.py
 ```
 
 ---
 
-## Prompt 3: Administrar las citas que se generaron mediante el Framework de Django
+## Prompt 3 — Administrar las citas con Django
 
 ```
-ROL: Eres un desarrollador backend senior en Python/Django.
+Ya tengo los datos ficticios cargados en "Huellas Sanas". Ahora me piden
+administrar las citas que se generaron, pero usando el framework Django
+(o sea, a través del código, no tocando la base de datos a mano).
 
-CONTEXTO:
-Sistema "Huellas Sanas" ya con datos ficticios cargados. El administrador de la
-clínica necesita administrar las citas (cambiar su estado) usando el framework
-Django, sin tocar la base de datos directamente.
+Puedes ayudarme a implementarlo por estas dos formas que vimos en clases:
 
-OBJETIVO:
-Implementar la administración de las citas generadas mediante Django, cubriendo
-dos caminos oficiales del framework:
+A) Con vistas y rutas de Django (para el recepcionista):
+   - Una vista que muestre el listado de citas del día. Que se pueda cambiar
+     la fecha con ?fecha=AAAA-MM-DD y que por defecto muestre hoy.
+   - Un formulario para registrar pacientes nuevos (con ModelForm).
+   - Una vista que reciba un POST y cambie el estado de una cita (atender,
+     cancelar o reabrir), y después haga redirect al listado de esa fecha,
+     mostrando un mensaje de éxito con django.contrib.messages.
+   - Las URLs con include() y nombres para usar {% url %} en las plantillas.
+Entrégame los archivos forms.py, views.py, urls.py y las plantillas.
 
-A) Vistas y rutas (para recepcionistas):
-   - Vista de listado diario de citas (?fecha=YYYY-MM-DD, por defecto hoy) que
-     muestre hora, mascota, dueño, motivo, estado y acciones.
-   - Vista de formulario para registrar nuevos pacientes (ModelForm + CSRF).
-   - Vista POST que actualice el estado de una cita (atender/cancelar/reabrir)
-     y redirija al listado de su fecha conservando mensajes de feedback
-     (django.contrib.messages).
-   - URLs con include() en el proyecto y nombres reverse-ables.
-
-B) Django Admin (para el director):
-   - Modelos registrados con CRUD completo, list_filter por estado y fecha,
-     búsqueda y date_hierarchy (ya implementado en citas/admin.py).
-
-REQUISITOS TÉCNICOS:
-- Usar ORM de Django (nunca SQL crudo).
-- Validación de formularios con ModelForm.
-- Protección CSRF en todos los POST.
-- Códigos de estado correctos: redirect tras POST exitoso (patrón POST/redirect/GET).
-
-FORMATO DE SALIDA:
-Archivos forms.py, views.py, urls.py (app y proyecto) y plantillas asociadas,
-con la estructura de carpetas citations/templates/.
-```
-
----
-
-*Nota: estos prompts fueron la especificación utilizada para generar el código
-de vistas, rutas, plantillas y datos ficticios de esta unidad, mediante un
-agente de Inteligencia Artificial.*
